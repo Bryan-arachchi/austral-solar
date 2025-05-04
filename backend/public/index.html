@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .container h2 {
+            margin-bottom: 20px;
+        }
+        .container input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        .container button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .container button:hover {
+            background-color: #218838;
+        }
+        #error-message {
+            color: red;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Payment Form</h2>
+    <form id="paymentForm">
+        <input type="text" id="first_name" placeholder="First Name" value="Leo" required>
+        <input type="text" id="last_name" placeholder="Last Name" value="Gavin" required>
+        <input type="email" id="email" placeholder="Email" value="leogavin123@gmail.com" required>
+        <input type="text" id="phone" placeholder="Phone" value="0772067102" required>
+        <input type="text" id="address" placeholder="Address" value="32/2," required>
+        <input type="text" id="city" placeholder="City" value="Gampaha" required>
+        <input type="text" id="country" placeholder="Country" value="Sri Lanka" required>
+        <input type="text" id="product_id" placeholder="Product ID" value="6713856475c3728ec46e5c14" required>
+        <input type="number" id="quantity" placeholder="Quantity" value="1" required>
+        <input type="text" id="notes" placeholder="Notes" value="Test">
+        <input type="text" id="paymentMethod" placeholder="Payment Method" value="Card" required>
+        <button type="submit">Initiate Payment</button>
+    </form>
+    <div id="error-message"></div>
+</div>
+
+<script>
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        const orderData = {
+            products: [
+                {
+                    product: document.getElementById('product_id').value,
+                    quantity: parseInt(document.getElementById('quantity').value)
+                }
+            ],
+            notes: document.getElementById('notes').value,
+            paymentMethod: document.getElementById('paymentMethod').value
+        };
+        //remeber to change the token
+        fetch('http://localhost:8080/v1/orders', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImNSRXhaOTZTeDlidndiQUs5eDY0cyJ9.eyJnaXZlbl9uYW1lIjoiTGVvIiwiZmFtaWx5X25hbWUiOiJHYXZpbiIsIm5pY2tuYW1lIjoibGVvZ2F2aW4xMjMiLCJuYW1lIjoiTGVvIEdhdmluIiwicGljdHVyZSI6Imh0dHBzOi8vbGgzLmdvb2dsZXVzZXJjb250ZW50LmNvbS9hL0FDZzhvY0lmT19lWU56M09LOHdNUEFEMUE1aWtYSER2c3dpZVA1bFpwX0ltX2dFdGFlM2plalFzNkE9czk2LWMiLCJ1cGRhdGVkX2F0IjoiMjAyNS0wMS0yOVQxNDo0NDoyOC4xNTVaIiwiZW1haWwiOiJsZW9nYXZpbjEyM0BnbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiaXNzIjoiaHR0cHM6Ly9kZXYtZnludmpoeHljMGVudmJycC51cy5hdXRoMC5jb20vIiwiYXVkIjoiU29mbnA0c3NORnJpcmI5NmlTNGFoQnJDTjhNczRJdUYiLCJpYXQiOjE3MzgxNjE4NjksImV4cCI6MTczODE5Nzg2OSwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTA0Mjg5MDgyNTczMDMwNDQ2MzkiLCJzaWQiOiJ0b2JyMVpEUll6VGk4aFBTZVNZV2dVR3FTem1tS2paXyJ9.n7U1X6aSENpXaWQlrC83biFkzl4rIIHtvaOJl6voneiQdoUir4e2QNNMEja6NN2nC7eAHwG0DvY9t463kllLJ37ZU2SewUJ8aWUKUm9c6yfEY-kLaLf7NlOn6f1D3DhNLpL6iw_532i-W-p7I9zmaYl6ynB3soc-6e6YDiMnpIiKkXQTBrNf8Ar42wHg-tRIgo8QxyiUIZJgXfM9_64_Cb9_Tvouat3g49grbz_RdcEbqjqblgJKbvTuUZNoXNhzAL0dGu7d9J425i6YKZ57ZdgIlYXh7bJaZyoCSF7agPz2y13jzFPIPsTNK4WD3AUzwPBOgDbqTTH5FM9uwmdQQA'
+            },
+            body: JSON.stringify(orderData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error);
+            }
+
+            // Send payment request to PayHere
+            const paymentData = data.paymentData;
+
+            const paymentForm = document.createElement('form');
+            paymentForm.method = 'POST';
+            paymentForm.action = 'https://sandbox.payhere.lk/pay/checkout';
+
+            for (const key in paymentData) {
+                if (paymentData.hasOwnProperty(key)) {
+                    const hiddenField = document.createElement('input');
+                    hiddenField.type = 'hidden';
+                    hiddenField.name = key;
+                    hiddenField.value = paymentData[key];
+                    paymentForm.appendChild(hiddenField);
+                }
+            }
+
+            document.body.appendChild(paymentForm);
+            paymentForm.submit();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            document.getElementById('error-message').textContent = 'An error occurred. Please try again.';
+        });
+    });
+</script>
+</body>
+</html>

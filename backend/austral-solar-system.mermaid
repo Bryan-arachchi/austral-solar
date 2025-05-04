@@ -1,0 +1,28 @@
+graph TD
+    subgraph "Austral Solar System"
+        UC1[Browse Products]
+        UC2[Place Order]
+        UC3[Make Payment - USD/LKR]
+        UC4[View Educational Content]
+        UC5[Track Order]
+        UC6[Manage Product Listings]
+        UC7[View Orders]
+        UC8[Update Educational Content]
+        UC9[Receive Order Notification]
+        UC10[Process Order Fulfillment]
+    end
+
+    Customer((Customer)) --> UC1
+    Customer --> UC2
+    Customer --> UC3
+    Customer --> UC4
+    Customer --> UC5
+
+    Admin((Admin)) --> UC6
+    Admin --> UC7
+    Admin --> UC8
+
+    OutletStaff((Outlet Staff)) --> UC9
+    OutletStaff --> UC10
+
+    UC2 --> UC9
