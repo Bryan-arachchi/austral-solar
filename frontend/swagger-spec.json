@@ -1,0 +1,1587 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/v1/s3/generate-presigned-url": {
+      "post": {
+        "operationId": "S3Controller_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GeneratePresignedUrlDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The presigned url has been successfully generated.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GeneratePresignedUrlResponseDto"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "s3"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/Payhere/initiate-payment": {
+      "post": {
+        "operationId": "PayhereController_initiatePayment",
+        "summary": "Initiate a payment",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InitiatePaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Payment initiated successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          }
+        },
+        "tags": [
+          "Payhere"
+        ]
+      }
+    },
+    "/v1/Payhere/notify": {
+      "post": {
+        "operationId": "PayhereController_notifyPayment",
+        "summary": "Payment notification endpoint",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NotifyPaymentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Notification processed successfully"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        },
+        "tags": [
+          "Payhere"
+        ]
+      }
+    },
+    "/v1/Payhere/cancel/{orderId}": {
+      "get": {
+        "operationId": "PayhereController_cancelPayment",
+        "summary": "Cancel a payment",
+        "parameters": [
+          {
+            "name": "orderId",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Payment cancelled successfully"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "404": {
+            "description": "Order not found"
+          }
+        },
+        "tags": [
+          "Payhere"
+        ]
+      }
+    },
+    "/v1/orders": {
+      "post": {
+        "operationId": "OrdersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "OrdersController_getPaginatedList",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pagination",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/orders/{id}": {
+      "get": {
+        "operationId": "OrdersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "patch": {
+        "operationId": "OrdersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateOrderDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "OrdersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "orders"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/users": {
+      "post": {
+        "operationId": "UsersController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users",
+          "users"
+        ]
+      },
+      "get": {
+        "operationId": "UsersController_getPaginatedList",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "pagination",
+            "required": false,
+            "in": "query",
+            "description": "Enable pagination",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort by field",
+            "schema": {
+              "example": "createdAt:desc",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users",
+          "users"
+        ]
+      }
+    },
+    "/v1/users/{id}": {
+      "get": {
+        "operationId": "UsersController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users",
+          "users"
+        ]
+      },
+      "patch": {
+        "operationId": "UsersController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users",
+          "users"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "UsersController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "users",
+          "users"
+        ]
+      }
+    },
+    "/v1/products": {
+      "post": {
+        "operationId": "ProductsController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "products"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "ProductsController_getPaginatedList",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "pagination",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": [
+                "Panels",
+                "Inverters",
+                "Batteries",
+                "Mounting Systems",
+                "Accessories",
+                "LED"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "products"
+        ]
+      }
+    },
+    "/v1/products/{id}": {
+      "get": {
+        "operationId": "ProductsController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "products"
+        ]
+      },
+      "patch": {
+        "operationId": "ProductsController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProductDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "products"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "ProductsController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "products"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/branches": {
+      "post": {
+        "operationId": "BranchesController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBranchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "get": {
+        "operationId": "BranchesController_getPaginatedList",
+        "parameters": [
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": 1,
+              "type": "number"
+            }
+          },
+          {
+            "name": "limit",
+            "required": false,
+            "in": "query",
+            "description": "Items per page",
+            "schema": {
+              "example": 10,
+              "type": "number"
+            }
+          },
+          {
+            "name": "pagination",
+            "required": false,
+            "in": "query",
+            "description": "Enable pagination",
+            "schema": {
+              "example": true,
+              "type": "boolean"
+            }
+          },
+          {
+            "name": "sortBy",
+            "required": false,
+            "in": "query",
+            "description": "Sort by field",
+            "schema": {
+              "example": "createdAt:desc",
+              "type": "string"
+            }
+          },
+          {
+            "name": "search",
+            "required": false,
+            "in": "query",
+            "description": "Search term",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ]
+      }
+    },
+    "/v1/branches/nearest": {
+      "get": {
+        "operationId": "BranchesController_findNearest",
+        "parameters": [
+          {
+            "name": "longitude",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "latitude",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "number"
+            }
+          },
+          {
+            "name": "maxDistance",
+            "required": false,
+            "in": "query",
+            "description": "Max distance in meters",
+            "schema": {
+              "example": 10000,
+              "type": "number"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ]
+      }
+    },
+    "/v1/branches/{id}": {
+      "get": {
+        "operationId": "BranchesController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ]
+      },
+      "patch": {
+        "operationId": "BranchesController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBranchDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "BranchesController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "branches",
+          "branches"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    },
+    "/v1/auth/login": {
+      "get": {
+        "operationId": "AuthController_getLoginUrl",
+        "summary": "Get Auth0 login URL",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Login URL retrieved successfully"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/callback": {
+      "get": {
+        "operationId": "AuthController_handleCallback",
+        "summary": "Handle Auth0 callback",
+        "parameters": [
+          {
+            "name": "code",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Authentication successful"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "auth"
+        ]
+      }
+    },
+    "/v1/auth/profile": {
+      "get": {
+        "operationId": "AuthController_getProfile",
+        "summary": "Get user profile",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Profile retrieved successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        },
+        "tags": [
+          "auth"
+        ],
+        "security": [
+          {
+            "bearer": []
+          }
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "Austral Solar Backend API",
+    "description": "The Austral Solor Backend API",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "Austral Solar",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "BucketDomains": {
+        "type": "string",
+        "description": "Domain of the file",
+        "enum": [
+          "Avatar"
+        ]
+      },
+      "GeneratePresignedUrlDto": {
+        "type": "object",
+        "properties": {
+          "fileName": {
+            "type": "string",
+            "description": "Name of the file",
+            "default": "test.jpeg"
+          },
+          "domain": {
+            "$ref": "#/components/schemas/BucketDomains"
+          },
+          "contentType": {
+            "type": "string",
+            "description": "Content type of the file",
+            "default": "image/jpeg"
+          }
+        },
+        "required": [
+          "fileName",
+          "domain",
+          "contentType"
+        ]
+      },
+      "GeneratePresignedUrlResponseDto": {
+        "type": "object",
+        "properties": {
+          "presignedUrl": {
+            "type": "string",
+            "description": "The generated presigned url.",
+            "example": "https://put-object.-bucket-name-here.s3.amazonaws.com/..."
+          },
+          "s3url": {
+            "type": "string",
+            "description": "The generated s3 object url.",
+            "example": "https://bucket-name-here.s3.amazonaws.com/..."
+          }
+        },
+        "required": [
+          "presignedUrl",
+          "s3url"
+        ]
+      },
+      "InitiatePaymentDto": {
+        "type": "object",
+        "properties": {
+          "first_name": {
+            "type": "string",
+            "description": "First name of the customer",
+            "example": "John"
+          },
+          "last_name": {
+            "type": "string",
+            "description": "Last name of the customer",
+            "example": "Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email address of the customer",
+            "example": "john.doe@example.com"
+          },
+          "phone": {
+            "type": "string",
+            "description": "Phone number of the customer",
+            "example": "+1234567890"
+          },
+          "address": {
+            "type": "string",
+            "description": "Address of the customer",
+            "example": "123 Main St"
+          },
+          "city": {
+            "type": "string",
+            "description": "City of the customer",
+            "example": "New York"
+          },
+          "country": {
+            "type": "string",
+            "description": "Country of the customer",
+            "example": "USA"
+          },
+          "order_id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "example": "ORD-12345"
+          },
+          "items": {
+            "description": "List of items in the order",
+            "example": [
+              "Item 1",
+              "Item 2"
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "currency": {
+            "type": "string",
+            "description": "Currency code for the transaction",
+            "example": "USD"
+          },
+          "amount": {
+            "type": "number",
+            "description": "Total amount of the transaction",
+            "example": 100
+          }
+        },
+        "required": [
+          "first_name",
+          "last_name",
+          "email",
+          "phone",
+          "address",
+          "city",
+          "country",
+          "order_id",
+          "items",
+          "currency",
+          "amount"
+        ]
+      },
+      "NotifyPaymentDto": {
+        "type": "object",
+        "properties": {
+          "merchant_id": {
+            "type": "string",
+            "description": "Merchant ID provided by PayHere",
+            "example": "M123456"
+          },
+          "order_id": {
+            "type": "string",
+            "description": "Unique identifier for the order",
+            "example": "ORD-12345"
+          },
+          "payhere_amount": {
+            "type": "string",
+            "description": "Amount of the payment as reported by PayHere",
+            "example": "100.00"
+          },
+          "payhere_currency": {
+            "type": "string",
+            "description": "Currency of the payment as reported by PayHere",
+            "example": "USD"
+          },
+          "status_code": {
+            "type": "string",
+            "description": "Status code of the payment",
+            "example": "2"
+          },
+          "md5sig": {
+            "type": "string",
+            "description": "MD5 signature for payment verification",
+            "example": "a1b2c3d4e5f6g7h8i9j0"
+          }
+        },
+        "required": [
+          "merchant_id",
+          "order_id",
+          "payhere_amount",
+          "payhere_currency",
+          "status_code",
+          "md5sig"
+        ]
+      },
+      "OrderItemDto": {
+        "type": "object",
+        "properties": {
+          "product": {
+            "type": "string",
+            "description": "The ID of the product"
+          },
+          "quantity": {
+            "type": "number",
+            "description": "The quantity of the product",
+            "minimum": 1
+          }
+        },
+        "required": [
+          "product",
+          "quantity"
+        ]
+      },
+      "CreateOrderDto": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "description": "The array of products in the order",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDto"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes for the order"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "The payment method used"
+          }
+        },
+        "required": [
+          "products"
+        ]
+      },
+      "UpdateOrderDto": {
+        "type": "object",
+        "properties": {
+          "products": {
+            "description": "The array of products in the order",
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderItemDto"
+            }
+          },
+          "notes": {
+            "type": "string",
+            "description": "Additional notes for the order"
+          },
+          "paymentMethod": {
+            "type": "string",
+            "description": "The payment method used"
+          }
+        }
+      },
+      "GeoJSONPointDto": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "description": "The type of the geolocation point",
+            "enum": [
+              "Point"
+            ],
+            "example": "Point"
+          },
+          "coordinates": {
+            "description": "The coordinates of the location [longitude, latitude]",
+            "example": [
+              80.016433,
+              7.077674
+            ],
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "type",
+          "coordinates"
+        ]
+      },
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the user"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "The URL of the user's avatar"
+          },
+          "type": {
+            "type": "array",
+            "description": "The types of the user",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Admin",
+                "Client"
+              ]
+            }
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the user"
+          },
+          "loginEnabled": {
+            "type": "boolean",
+            "description": "Whether login is enabled for the user",
+            "default": false
+          },
+          "authState": {
+            "type": "string",
+            "description": "The authentication state of the user"
+          },
+          "location": {
+            "description": "The geolocation of the user",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSONPointDto"
+              }
+            ]
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The contact number of the user"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the user"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city of the user"
+          },
+          "country": {
+            "type": "string",
+            "description": "The country of the user",
+            "default": "Sri Lanka"
+          }
+        },
+        "required": [
+          "firstName",
+          "lastName",
+          "type",
+          "email"
+        ]
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string",
+            "description": "The first name of the user"
+          },
+          "lastName": {
+            "type": "string",
+            "description": "The last name of the user"
+          },
+          "avatar": {
+            "type": "string",
+            "description": "The URL of the user's avatar"
+          },
+          "type": {
+            "type": "array",
+            "description": "The types of the user",
+            "items": {
+              "type": "string",
+              "enum": [
+                "Admin",
+                "Client"
+              ]
+            }
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the user"
+          },
+          "loginEnabled": {
+            "type": "boolean",
+            "description": "Whether login is enabled for the user",
+            "default": false
+          },
+          "authState": {
+            "type": "string",
+            "description": "The authentication state of the user"
+          },
+          "location": {
+            "description": "The geolocation of the user",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSONPointDto"
+              }
+            ]
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The contact number of the user"
+          },
+          "address": {
+            "type": "string",
+            "description": "The address of the user"
+          },
+          "city": {
+            "type": "string",
+            "description": "The city of the user"
+          },
+          "country": {
+            "type": "string",
+            "description": "The country of the user",
+            "default": "Sri Lanka"
+          }
+        }
+      },
+      "CreateProductDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the product"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the product"
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of the product"
+          },
+          "images": {
+            "description": "Array of image URLs for the product",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string",
+            "description": "The category of the product",
+            "enum": [
+              "Panels",
+              "Inverters",
+              "Batteries",
+              "Mounting Systems",
+              "Accessories",
+              "LED"
+            ]
+          },
+          "wattage": {
+            "type": "number",
+            "description": "The wattage of the product"
+          },
+          "voltage": {
+            "type": "number",
+            "description": "The voltage of the product"
+          },
+          "dimensions": {
+            "type": "string",
+            "description": "The dimensions of the product"
+          },
+          "weight": {
+            "type": "number",
+            "description": "The weight of the product"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the product"
+          },
+          "warranty": {
+            "type": "string",
+            "description": "The warranty information of the product"
+          },
+          "stock": {
+            "type": "number",
+            "description": "The stock quantity of the product"
+          },
+          "isAvailable": {
+            "type": "boolean",
+            "description": "Whether the product is available"
+          }
+        },
+        "required": [
+          "name",
+          "description",
+          "price",
+          "images",
+          "category",
+          "wattage"
+        ]
+      },
+      "UpdateProductDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the product"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the product"
+          },
+          "price": {
+            "type": "number",
+            "description": "The price of the product"
+          },
+          "images": {
+            "description": "Array of image URLs for the product",
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "category": {
+            "type": "string",
+            "description": "The category of the product",
+            "enum": [
+              "Panels",
+              "Inverters",
+              "Batteries",
+              "Mounting Systems",
+              "Accessories",
+              "LED"
+            ]
+          },
+          "wattage": {
+            "type": "number",
+            "description": "The wattage of the product"
+          },
+          "voltage": {
+            "type": "number",
+            "description": "The voltage of the product"
+          },
+          "dimensions": {
+            "type": "string",
+            "description": "The dimensions of the product"
+          },
+          "weight": {
+            "type": "number",
+            "description": "The weight of the product"
+          },
+          "manufacturer": {
+            "type": "string",
+            "description": "The manufacturer of the product"
+          },
+          "warranty": {
+            "type": "string",
+            "description": "The warranty information of the product"
+          },
+          "stock": {
+            "type": "number",
+            "description": "The stock quantity of the product"
+          },
+          "isAvailable": {
+            "type": "boolean",
+            "description": "Whether the product is available"
+          }
+        }
+      },
+      "CreateBranchDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the branch"
+          },
+          "locationName": {
+            "type": "string",
+            "description": "The name of the branch location"
+          },
+          "location": {
+            "description": "The geolocation of the branch",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSONPointDto"
+              }
+            ]
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number of the branch"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the branch"
+          },
+          "image": {
+            "type": "string",
+            "description": "Image of a branch"
+          }
+        },
+        "required": [
+          "name",
+          "locationName",
+          "location",
+          "image"
+        ]
+      },
+      "UpdateBranchDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the branch"
+          },
+          "locationName": {
+            "type": "string",
+            "description": "The name of the branch location"
+          },
+          "location": {
+            "description": "The geolocation of the branch",
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/GeoJSONPointDto"
+              }
+            ]
+          },
+          "phoneNumber": {
+            "type": "string",
+            "description": "The phone number of the branch"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the branch"
+          },
+          "image": {
+            "type": "string",
+            "description": "Image of a branch"
+          }
+        }
+      }
+    }
+  }
+}
